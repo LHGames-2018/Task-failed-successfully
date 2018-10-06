@@ -3,7 +3,6 @@ from helper import *
 
 class Bot:
     def __init__(self):
-        self.compteur = 0
         pass
 
     def before_turn(self, playerInfo):
@@ -11,8 +10,16 @@ class Bot:
         Gets called before ExecuteTurn. This is where you get your bot's state.
             :param playerInfo: Your bot's current state.
         """
-
         self.PlayerInfo = playerInfo
+
+
+        if self.state != "farm" and self.state != "home":
+            self.state = "move"
+
+        #if self.PlayerInfo.CarriedResources < self.PlayerInfo.CarryingCapacity:
+        #    self.state = "farm"
+        #else:
+        #    self.state = "home"
 
     def execute_turn(self, gameMap, visiblePlayers):
         """
@@ -23,13 +30,18 @@ class Bot:
 
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
 
-        if self.compteur == 0:
-            self.compteur += 1
-            return create_move_action(Point(-1, 0))
+        if self.state == "move":
+            self.state = "farm"
+            return create_move_action(Point(0, -1))
 
-        if self.compteur <= 7: # descend 6 fois
-            self.compteur += 1
-            return create_move_action(Point(0, 1))
+        if self.state == "farm":
+            if self.PlayerInfo.CarriedResources < self.PlayerInfo.CarryingCapacity:
+                return create_collect_action(Point(-1, 0))
+            else:
+                self.state = "home"
+
+        if self.state == "home":
+            return create_empty_action()
 
         return create_empty_action()
 
