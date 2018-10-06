@@ -39,6 +39,28 @@ class Bot:
                 return create_upgrade_action(UpgradeType.AttackPower)
             if self.PlayerInfo.getUpgradeLevel(UpgradeType.AttackPower) == 4 and self.PlayerInfo.TotalResources >= 100000:
                 return create_upgrade_action(UpgradeType.AttackPower)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) == 0 and self.PlayerInfo.TotalResources >= 10000:
+                print("upgrade speed")
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) == 1 and self.PlayerInfo.TotalResources >= 15000:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) == 2 and self.PlayerInfo.TotalResources >= 25000:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) == 3 and self.PlayerInfo.TotalResources >= 50000:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) == 4 and self.PlayerInfo.TotalResources >= 100000:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) == 0 and self.PlayerInfo.TotalResources >= 10000:
+                print("upgrade capacity")
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) == 1 and self.PlayerInfo.TotalResources >= 15000:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) == 2 and self.PlayerInfo.TotalResources >= 25000:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) == 3 and self.PlayerInfo.TotalResources >= 50000:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) == 4 and self.PlayerInfo.TotalResources >= 100000:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
 
         if (self.state == "bloquer"):
             if self.compteur > 10:
