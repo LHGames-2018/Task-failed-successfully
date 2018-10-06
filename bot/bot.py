@@ -153,6 +153,7 @@ class Bot:
             print("je te casse la figure")
             return create_attack_action(self.direction)
 
+        self.state = "bloquer"
         return create_collect_action(self.direction)
 
     def after_turn(self):
