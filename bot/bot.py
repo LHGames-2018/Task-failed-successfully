@@ -27,6 +27,64 @@ class Bot:
             :param gameMap: The gamemap.
             :param visiblePlayers:  The list of visible players.
         """
+
+        if (len(visiblePlayers) > 0):
+            print("player visible")
+            for x in range(len(visiblePlayers)):
+                player = visiblePlayers[x]
+                if Point.Distance(player.Position, self.PlayerInfo.Position) == 1:
+                    if (self.PlayerInfo.Position.x < player.Position.x):
+                        return create_attack_action(Point(1,0))
+                    if (self.PlayerInfo.Position.x > player.Position.x):
+                        return create_attack_action(Point(-1,0))
+                    if (self.PlayerInfo.Position.y < player.Position.y):
+                        return create_attack_action(Point(0,1))
+                    if (self.PlayerInfo.Position.y > player.Position.y):
+                        return create_attack_action(Point(0, -1))
+                if (player.AttackPower <= self.PlayerInfo.AttackPower ):
+                    if (player.Position.x < self.PlayerInfo.Position.x):
+                        print ("je me dirige en x negatif")
+                        self.direction = Point(-1, 0)
+                        positionObstacle = Point(self.PlayerInfo.Position.x- 1, self.PlayerInfo.Position.y)
+                        if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                            return create_move_action(self.direction)
+                        print("je te casse la figure")
+                        return create_attack_action(self.direction)
+                    if (player.Position.x > self.PlayerInfo.Position.x):
+                        print ("je me dirige en x positif")
+                        self.direction = Point(1, 0)
+                        positionObstacle = Point(self.PlayerInfo.Position.x + 1, self.PlayerInfo.Position.y)
+                        if gameMap.getTileAt(positionObstacle ) != TileContent.Wall : 
+                            return create_move_action(self.direction)
+                        print("je te casse la figure")
+                        return create_attack_action(self.direction)
+                    if (player.Position.y < self.PlayerInfo.Position.y):
+                        print ("je me dirige en y negatif")
+                        self.direction = Point(0, -1)
+                        positionObstacle = Point(self.PlayerInfo.Position.x, self.PlayerInfo.Position.y - 1)
+                        if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                            print("je bouge")
+                            return create_move_action(self.direction)
+                        print("je te casse la figure")
+                        print(self.PlayerInfo.AttackPower)
+                        return create_attack_action(self.direction)
+                    if (player.Position.y > self.PlayerInfo.Position.y):
+                        print ("je me dirige en y positif")
+                        self.direction = Point(0, 1)
+                        positionObstacle = Point(self.PlayerInfo.Position.x, self.PlayerInfo.Position.y + 1)
+                        if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                            return create_move_action(self.direction)
+                        print("je te casse la figure")
+                        return create_attack_action(self.direction)
+        
+        if self.PlayerInfo.TotalResources < 5000:
+                print ("je me dirige en x negatif v2")
+                self.direction = Point(-1, 0)
+                positionObstacle = Point(self.PlayerInfo.Position.x- 1, self.PlayerInfo.Position.y)
+                if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                    return create_move_action(self.direction)
+                print("je te casse la figure")
+                return create_attack_action(self.direction)
         if self.PlayerInfo.HouseLocation == self.PlayerInfo.Position:
             if self.PlayerInfo.getUpgradeLevel(UpgradeType.AttackPower) == 0 and self.PlayerInfo.TotalResources >= 10000:
                 print("upgrade force")
