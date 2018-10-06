@@ -71,3 +71,13 @@ def _create_action(action_type, target):
     """
     actionContent = ActionContent(action_type, json.dumps(target.__dict__))
     return json.dumps(actionContent.__dict__)
+
+def create_upgrade_action(upgrade):
+    """
+    Creates an upgrade action the given upgradeType. You need to be ON
+    your house tile for this action to succeed. If you are on any other
+    type of tile, the action will fail.
+        :param item: The type of upgrade.
+    """
+    actionContent = ActionContent("UpgradeAction", upgrade)
+    return json.dumps(actionContent.__dict__)
