@@ -115,6 +115,10 @@ class Bot:
                 print("Player : ", self.PlayerInfo.Position)
                 return create_empty_action()
 
+        elif self.state == "try_upgrade":
+            self.state = "end_upgrade"
+            return create_upgrade_action(UpgradeType.CollectingSpeed)
+
         print(gameMap)
         return create_empty_action()
 
@@ -129,6 +133,8 @@ class Bot:
         elif self.state == "endfarm":
             self.state = "go_back_home"
         elif self.state == "home":
+            self.state = "try_upgrade"
+        elif self.state == "end_upgrade":
             self.state = "seek"
         pass
 
