@@ -31,6 +31,22 @@ class Bot:
             :param visiblePlayers:  The list of visible players.
         """
 
+
+        # Se defendre
+        if (len(visiblePlayers) > 0):
+            print("player visible")
+            for x in range(len(visiblePlayers)):
+                player = visiblePlayers[x]
+                if Point.Distance(player.Position, self.PlayerInfo.Position) == 1:
+                    if (self.PlayerInfo.Position.x < player.Position.x):
+                        return create_attack_action(Point(1, 0))
+                    if (self.PlayerInfo.Position.x > player.Position.x):
+                        return create_attack_action(Point(-1, 0))
+                    if (self.PlayerInfo.Position.y < player.Position.y):
+                        return create_attack_action(Point(0, 1))
+                    if (self.PlayerInfo.Position.y > player.Position.y):
+                        return create_attack_action(Point(0, -1))
+
         print("Current state: " + str(self.state))
 
         if self.state == "seek":
@@ -116,6 +132,7 @@ class Bot:
                 return create_empty_action()
 
         elif self.state == "try_upgrade":
+            print('Current upgrade : ', self.PlayerInfo.UpgradeLevels)
             self.state = "end_upgrade"
             return create_upgrade_action(UpgradeType.CollectingSpeed)
 
