@@ -27,7 +27,11 @@ class Bot:
             self.compteur += 1
             return create_move_action(-1, 0)
 
-        return create_empty_action(Point(-1, 0))
+        if self.compteur <= 7: # descend 6 fois
+            self.compteur += 1
+            return create_move_action(Point(0, 1))
+
+        return create_empty_action()
 
     def after_turn(self):
         """
