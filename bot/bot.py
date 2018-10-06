@@ -29,20 +29,29 @@ class Bot:
         positions = self.findResource(gameMap)
         positions = self.convertGlobalMapToLocalMap(positions)
 
+        positionObstacle = Point(0,0)
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         if (self.PlayerInfo.CarriedResources == self.PlayerInfo.CarryingCapacity):
             if (self.PlayerInfo.HouseLocation.x < self.PlayerInfo.Position.x):
-                print("retour maison gauche")
-                return create_move_action(Point(-1, 0))
-            elif (self.PlayerInfo.HouseLocation.x > self.PlayerInfo.Position.x):
-                print("retour maison droite")
-                return create_move_action(Point(1, 0))
-            elif (self.PlayerInfo.HouseLocation.y < self.PlayerInfo.Position.y):
-                print("retour maison haut")
-                return create_move_action(Point(0, -1))
-            elif (self.PlayerInfo.HouseLocation.y > self.PlayerInfo.Position.y):
-                print("retour maison bas")
-                return create_move_action(Point(0, 1))
+                positionObstacle = Point(self.PlayerInfo.Position.x- 1, self.PlayerInfo.Position.y)
+                if gameMap.getTileAt(positionObstacle) != TileContent.Wall and gameMap.getTileAt(positionObstacle) != TileContent.Resource:
+                    print("retour maison gauche")
+                    return create_move_action(Point(-1, 0))
+            if (self.PlayerInfo.HouseLocation.x > self.PlayerInfo.Position.x):
+                positionObstacle = Point(self.PlayerInfo.Position.x + 1, self.PlayerInfo.Position.y)
+                if gameMap.getTileAt(positionObstacle) != TileContent.Wall and gameMap.getTileAt(positionObstacle) != TileContent.Resource:
+                    print("retour maison droite")
+                    return create_move_action(Point(1, 0))
+            if (self.PlayerInfo.HouseLocation.y < self.PlayerInfo.Position.y):
+                positionObstacle = Point(self.PlayerInfo.Position.x, self.PlayerInfo.Position.y - 1)
+                if gameMap.getTileAt(positionObstacle) != TileContent.Wall and gameMap.getTileAt(positionObstacle) != TileContent.Resource:
+                    print("retour maison haut")
+                    return create_move_action(Point(0, -1))
+            if (self.PlayerInfo.HouseLocation.y > self.PlayerInfo.Position.y):
+                positionObstacle = Point(self.PlayerInfo.Position.x, self.PlayerInfo.Position.y + 1)
+                if gameMap.getTileAt(positionObstacle) != TileContent.Wall and gameMap.getTileAt(positionObstacle) != TileContent.Resource:
+                    print("retour maison bas")
+                    return create_move_action(Point(0, 1))
         elif ((abs(positions[0].x - 10) <= 1 and positions[0].y == 10) or (abs(positions[0].y - 10) <= 1 and positions[0].x == 10)):
             if positions[0].y < 10:
                 print("vers le haut")
@@ -60,18 +69,31 @@ class Bot:
                 print("vers la droite")
                 self.direction = Point(1, 0)
                 return create_collect_action(self.direction)
-        elif (positions[0].x < 10):
+        if (positions[0].x < 10):
             self.direction = Point(-1, 0)
-            return create_move_action(self.direction)
-        elif (positions[0].x > 10):
+            positionObstacle = Point(self.PlayerInfo.Position.x- 1, self.PlayerInfo.Position.y)
+            if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                return create_move_action(self.direction)
+            return create_attack_action(self.direction)
+        if (positions[0].x > 10):
             self.direction = Point(1, 0)
-            return create_move_action(self.direction)
-        elif (positions[0].y < 10):
+            positionObstacle = Point(self.PlayerInfo.Position.x + 1, self.PlayerInfo.Position.y)
+            if gameMap.getTileAt(positionObstacle ) != TileContent.Wall : 
+                return create_move_action(self.direction)
+            return create_attack_action(self.direction)
+        if (positions[0].y < 10):
             self.direction = Point(0, -1)
-            return create_move_action(self.direction)
-        elif (positions[0].y > 10):
+            positionObstacle = Point(self.PlayerInfo.Position.y- 1, self.PlayerInfo.Position.y)
+            if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                return create_move_action(self.direction)
+            return create_attack_action(self.direction)
+        if (positions[0].y > 10):
             self.direction = Point(0, 1)
-            return create_move_action(self.direction)
+            positionObstacle = Point(self.PlayerInfo.Position.y + 1, self.PlayerInfo.Position.y)
+            if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                return create_move_action(self.direction)
+            return create_attack_action(self.direction)
+
         return create_collect_action(self.direction)
 
     def after_turn(self):
