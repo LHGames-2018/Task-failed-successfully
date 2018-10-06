@@ -27,6 +27,19 @@ class Bot:
             :param gameMap: The gamemap.
             :param visiblePlayers:  The list of visible players.
         """
+        if self.PlayerInfo.HouseLocation == self.PlayerInfo.Position:
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.AttackPower) == 0 and self.PlayerInfo.TotalResources >= 10000:
+                print("upgrade force")
+                return create_upgrade_action(UpgradeType.AttackPower)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.AttackPower) == 1 and self.PlayerInfo.TotalResources >= 15000:
+                return create_upgrade_action(UpgradeType.AttackPower)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.AttackPower) == 2 and self.PlayerInfo.TotalResources >= 25000:
+                return create_upgrade_action(UpgradeType.AttackPower)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.AttackPower) == 3 and self.PlayerInfo.TotalResources >= 50000:
+                return create_upgrade_action(UpgradeType.AttackPower)
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.AttackPower) == 4 and self.PlayerInfo.TotalResources >= 100000:
+                return create_upgrade_action(UpgradeType.AttackPower)
+
         if (self.state == "bloquer"):
             if self.compteur > 10:
                 self.state = "marcher"
@@ -84,28 +97,38 @@ class Bot:
         if (valider == 1):
             self.state = "bloquer"
         if (positions[0].x < 10):
+            print ("x<10")
             self.direction = Point(-1, 0)
             positionObstacle = Point(self.PlayerInfo.Position.x- 1, self.PlayerInfo.Position.y)
             if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
                 return create_move_action(self.direction)
+            print("je te casse la figure")
             return create_attack_action(self.direction)
         if (positions[0].x > 10):
+            print("x>10")
             self.direction = Point(1, 0)
             positionObstacle = Point(self.PlayerInfo.Position.x + 1, self.PlayerInfo.Position.y)
             if gameMap.getTileAt(positionObstacle ) != TileContent.Wall : 
                 return create_move_action(self.direction)
+            print("je te casse la figure")
             return create_attack_action(self.direction)
         if (positions[0].y < 10):
+            print("y < 10")
             self.direction = Point(0, -1)
-            positionObstacle = Point(self.PlayerInfo.Position.y- 1, self.PlayerInfo.Position.y)
+            positionObstacle = Point(self.PlayerInfo.Position.x, self.PlayerInfo.Position.y - 1)
             if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
+                print("je bouge")
                 return create_move_action(self.direction)
+            print("je te casse la figure")
+            print(self.PlayerInfo.AttackPower)
             return create_attack_action(self.direction)
         if (positions[0].y > 10):
+            print("y > 10")
             self.direction = Point(0, 1)
-            positionObstacle = Point(self.PlayerInfo.Position.y + 1, self.PlayerInfo.Position.y)
+            positionObstacle = Point(self.PlayerInfo.Position.x, self.PlayerInfo.Position.y + 1)
             if gameMap.getTileAt(positionObstacle) != TileContent.Wall:
                 return create_move_action(self.direction)
+            print("je te casse la figure")
             return create_attack_action(self.direction)
 
         return create_collect_action(self.direction)
@@ -156,3 +179,5 @@ class Bot:
             points[i].x -= (self.PlayerInfo.Position.x - 10)
             points[i].y -= (self.PlayerInfo.Position.y - 10)
         return points
+
+    
