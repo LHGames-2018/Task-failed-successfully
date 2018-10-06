@@ -27,7 +27,7 @@ class Bot:
             self.compteur += 1
             return create_move_action(Point(-1, 0))
 
-        return create_empty_action()
+        return create_empty_action(Point(-1, 0))
 
     def after_turn(self):
         """
